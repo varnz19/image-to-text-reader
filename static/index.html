@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TextFlow • Bitcoin DeFi OCR Terminal</title>
+  <meta name="description" content="Local Machine Learning OCR system with Bitcoin DeFi aesthetic. Zero cloud AI, 100% private.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+  <!-- Ambient Textured Void & Energy Fields -->
+  <div class="textured-void" aria-hidden="true">
+    <div class="network-grid"></div>
+    <div class="energy-orb energy-orb-1"></div>
+    <div class="energy-orb energy-orb-2"></div>
+  </div>
+
+  <div class="page-container">
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <!-- Spinning Mini Orbital Node -->
+        <div class="mini-orbital-node" aria-hidden="true">
+          <div class="orbit-ring-outer"></div>
+          <div class="orbit-ring-inner"></div>
+          <div class="orbit-core"></div>
+        </div>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">TEXTFLOW <span class="gradient-text">DEFI TERMINAL</span></h1>
+          <p class="brand-subtitle">LOCAL NEURAL OCR &bull; CRYPTOGRAPHIC PRECISION</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Live Node Telemetry Badge -->
+        <div class="telemetry-badge">
+          <span class="pulsing-beacon"></span>
+          <span class="badge-text">NODE ONLINE &bull; CPU INFERENCE</span>
+        </div>
+
+        <!-- Theme Toggle Button (Black / White) -->
+        <button id="themeBtn" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon" id="themeIcon">☀️</span>
+          <span id="themeLabel">THEME: TRUE VOID</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace (Dual Block Terminal) -->
+    <main class="workspace-grid">
+      <!-- BLOCK 01: SOURCE INPUT NODE -->
+      <section class="block-card input-block" aria-label="Input Image Node">
+        <!-- Corner Accent Brackets -->
+        <div class="corner-bracket corner-tl"></div>
+        <div class="corner-bracket corner-br"></div>
+
+        <div class="block-header">
+          <div class="block-label">
+            <span class="block-idx">[01]</span>
+            <h2>SOURCE IMAGE NODE</h2>
+          </div>
+          <span class="shortcut-tag">PASTE: CTRL/CMD+V</span>
+        </div>
+
+        <!-- Interactive Drag & Drop Area -->
+        <div class="drop-area" id="dropZone" tabindex="0" role="button" aria-label="Upload image">
+          <input type="file" id="fileInput" accept="image/*" class="sr-only">
+          
+          <div id="dropPrompt" class="drop-prompt-content">
+            <div class="holographic-node-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <p class="drop-headline">DROP IMAGE HERE OR CLICK TO BROWSE</p>
+            <p class="drop-subtext">SUPPORTS PNG &bull; JPG &bull; WEBP &bull; BMP &bull; TIFF</p>
+          </div>
+
+          <div id="previewContainer" class="preview-container" hidden>
+            <img id="imagePreview" alt="Selected Document Preview" class="preview-img">
+            <button id="removeImgBtn" class="btn-icon-remove" type="button" title="Remove Image">&times;</button>
+          </div>
+        </div>
+
+        <!-- Sample Loader Row -->
+        <div class="samples-dock">
+          <span class="dock-label">LOAD SAMPLES:</span>
+          <button class="pill-sample-btn" type="button" data-sample="/samples/book_page.png">📖 BOOK EXCERPT</button>
+          <button class="pill-sample-btn" type="button" data-sample="/samples/receipt.png">🧾 STORE RECEIPT</button>
+          <button class="pill-sample-btn" type="button" data-sample="/samples/quote_card.png">💡 QUOTE CARD</button>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="actions-dock">
+          <button id="processBtn" class="pill-cta-primary" type="button" disabled>
+            <svg class="cta-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span id="processBtnText">EXTRACT &amp; DECODE TEXT</span>
+          </button>
+
+          <button id="clearBtn" class="pill-btn-outline" type="button" disabled>
+            CLEAR
+          </button>
+        </div>
+
+        <!-- Preprocessing Option Toggle -->
+        <label class="toggle-option">
+          <input type="checkbox" id="cvPreprocessing" checked>
+          <span class="custom-checkbox"></span>
+          <span class="toggle-text">Multi-variant CV enhancement (300 DPI upscale, contrast boost &amp; deskew)</span>
+        </label>
+      </section>
+
+      <!-- BLOCK 02: DECODED TEXT BUFFER -->
+      <section class="block-card output-block" aria-label="Decoded Text Buffer">
+        <!-- Corner Accent Brackets -->
+        <div class="corner-bracket corner-tl"></div>
+        <div class="corner-bracket corner-br"></div>
+
+        <div class="block-header">
+          <div class="block-label">
+            <span class="block-idx">[02]</span>
+            <h2>DECODED TEXT BUFFER</h2>
+          </div>
+          <span id="statusIndicator" class="status-stream" role="status">READY</span>
+        </div>
+
+        <!-- Telemetry Stats Strip -->
+        <div class="telemetry-strip" id="statsStrip">
+          <div class="stat-cell">
+            <span class="stat-name">STATUS:</span>
+            <span class="stat-data" id="statStatus">STANDBY</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-cell">
+            <span class="stat-name">CONFIDENCE:</span>
+            <span class="stat-data stat-gold" id="statConfidence">--%</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-cell">
+            <span class="stat-name">WORDS:</span>
+            <span class="stat-data" id="statWords">0</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-cell">
+            <span class="stat-name">LATENCY:</span>
+            <span class="stat-data" id="statLatency">0ms</span>
+          </div>
+        </div>
+
+        <!-- Terminal Textarea Display -->
+        <div class="editor-wrap">
+          <textarea id="output" spellcheck="false" placeholder="// Decoded text stream will appear here. The buffer is fully editable."></textarea>
+        </div>
+
+        <!-- Output Action Toolbar -->
+        <div class="output-toolbar">
+          <button id="copyBtn" class="pill-action-btn" type="button" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>COPY BUFFER</span>
+          </button>
+
+          <button id="downloadBtn" class="pill-action-btn" type="button" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>EXPORT .TXT</span>
+          </button>
+
+          <button id="exportJsonBtn" class="pill-action-btn" type="button" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+            <span>EXPORT JSON</span>
+          </button>
+
+          <span class="spacer"></span>
+          <span class="security-stamp">100% PRIVATE &bull; ZERO CLOUD</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.joblib
+.DS_Store
+.env
