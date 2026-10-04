@@ -212,6 +212,9 @@ async function runOCR() {
 
   try {
     const res = await fetch('/api/read-image', { method: 'POST', body: form });
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
     const data = await res.json();
 
     if (data.status !== 'success') {
@@ -234,6 +237,56 @@ async function runOCR() {
 
     streamStatus(hasText ? 'DECODING COMPLETE' : 'NO GLYPHS FOUND');
   } catch (err) {
+    // If backend API is not found (e.g. static hosting on GitHub Pages),
+    // run the offline ML model directly in-browser using WebAssembly!
+    if (window.Tesseract) {
+      streamStatus('RUNNING IN-BROWSER WASM OCR');
+      statStatus.textContent = 'CLIENT WASM ENGINE';
+      const t0 = performance.now();
+
+      try {
+        const workerResult = await Tesseract.recognize(selectedFile, 'eng', {
+          logger: (m) => {
+            if (m.status === 'recognizing text' && m.progress) {
+              statStatus.textContent = `WASM: ${(m.progress * 100).toFixed(0)}%`;
+            }
+          }
+        });
+
+        const t1 = performance.now();
+        const extractedText = (workerResult?.data?.text || '').trim();
+        const confidence = Math.round(workerResult?.data?.confidence || 0);
+
+        output.value = extractedText;
+        lastResultData = {
+          proper_text: extractedText,
+          raw_text: extractedText,
+          confidence: confidence,
+          word_count: extractedText.split(/\s+/).filter(Boolean).length,
+          character_count: extractedText.length,
+          inference_time_ms: Math.round(t1 - t0),
+          variant: 'wasm-neural'
+        };
+
+        statStatus.textContent = 'WASM DECODED';
+        statConfidence.textContent = `${confidence}%`;
+        statWords.textContent = lastResultData.word_count;
+        statLatency.textContent = `${lastResultData.inference_time_ms}ms`;
+
+        const hasText = Boolean(extractedText);
+        copyBtn.disabled = !hasText;
+        downloadBtn.disabled = !hasText;
+        if (exportJsonBtn) exportJsonBtn.disabled = !hasText;
+
+        streamStatus(hasText ? 'WASM DECODING COMPLETE' : 'NO GLYPHS FOUND');
+        return;
+      } catch (wasmErr) {
+        statStatus.textContent = 'FAILED';
+        streamStatus(`ERR: ${wasmErr.message}`);
+        return;
+      }
+    }
+
     statStatus.textContent = 'FAILED';
     streamStatus(`ERR: ${err.message}`);
   } finally {

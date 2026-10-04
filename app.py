@@ -115,5 +115,25 @@ async def health_check():
 
 
 if __name__ == "__main__":
+    import socket
+    import sys
     import uvicorn
-    uvicorn.run("app:app", host="127.0.0.1", port=8001, reload=True)
+
+    def is_port_in_use(p: int) -> bool:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            return s.connect_ex(("127.0.0.1", p)) == 0
+
+    target_port = 8001
+    if is_port_in_use(target_port):
+        # Find next available port
+        for p in range(8002, 8020):
+            if not is_port_in_use(p):
+                target_port = p
+                break
+
+    print(f"\n========================================================")
+    print(f"🚀 TextFlow DeFi Terminal is live!")
+    print(f"👉 Open in browser: http://127.0.0.1:{target_port}")
+    print(f"========================================================\n")
+
+    uvicorn.run("app:app", host="127.0.0.1", port=target_port, reload=True)
